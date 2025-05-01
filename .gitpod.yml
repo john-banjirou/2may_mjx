@@ -2,11 +2,12 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - name: Build MJX
-    init: |
-      git submodule update --init --recursive
+  - init: |
+      git clone --recursive https://github.com/mjx-project/mjx.git
+      cd mjx
       mkdir -p build && cd build
       cmake .. -DMJX_BUILD_PYTHON=ON -DMJX_BUILD_GRPC=ON -DMJX_BUILD_BOOST=OFF
       make -j$(nproc)
-    command: |
       pip install .
+    command: |
+      echo "MJX setup complete. You can now use Python and mjx."
