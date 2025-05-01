@@ -2,6 +2,11 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - name: Setup
+  - name: Build MJX
     init: |
-      ./scripts/build.sh
+      git submodule update --init --recursive
+      mkdir -p build && cd build
+      cmake .. -DMJX_BUILD_PYTHON=ON -DMJX_BUILD_GRPC=ON -DMJX_BUILD_BOOST=OFF
+      make -j$(nproc)
+    command: |
+      pip install .
